@@ -43,7 +43,7 @@ let firebaseConfigManager;
         async _doInitialize() {
             if (this.isInitialized) {
                 console.log('🔥 Firebase already initialized');
-                return;
+                return Promise.resolve();
             }
 
             // Wait for Firebase to be available
@@ -81,9 +81,20 @@ let firebaseConfigManager;
             // Initialize Firebase services
             window.auth = firebase.auth();
             window.db = firebase.firestore();
+            
+            // Wait for auth to be ready
+            await new Promise((resolve) => {
+                const unsubscribe = window.auth.onAuthStateChanged(() => {
+                    unsubscribe();
+                    resolve();
+                });
+            });
 
             this.isInitialized = true;
             console.log('✅ Firebase services ready');
+            
+            // Dispatch ready event
+            window.dispatchEvent(new CustomEvent('firebaseReady'));
         }
     }
 
