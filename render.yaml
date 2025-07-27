@@ -13,3 +13,7 @@ services:
         value: 10000
     autoDeploy: true
     healthCheckPath: /api/health
+    disk:
+      name: ezyago-disk
+      mountPath: /opt/render/project/storage
+      sizeGB: 1
