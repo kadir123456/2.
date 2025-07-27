@@ -4,18 +4,20 @@
 
 ### 🔥 Firebase Web Config
 ```bash
+# Firebase Web Config (Gerçek değerlerinizi girin!)
 FIREBASE_API_KEY=AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-FIREBASE_AUTH_DOMAIN=ezyago-trading-bot.firebaseapp.com
-FIREBASE_PROJECT_ID=ezyago-trading-bot
-FIREBASE_STORAGE_BUCKET=ezyago-trading-bot.appspot.com
+FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
 FIREBASE_MESSAGING_SENDER_ID=123456789012
 FIREBASE_APP_ID=1:123456789012:web:abcdef123456789012345
-FIREBASE_DATABASE_URL=https://ezyago-trading-bot-default-rtdb.firebaseio.com
+FIREBASE_DATABASE_URL=https://your-project-id-default-rtdb.firebaseio.com
 ```
 
 ### 🔐 Firebase Service Account (Backend)
 ```bash
-FIREBASE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"ezyago-trading-bot","private_key_id":"abc123...","private_key":"-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC...\n-----END PRIVATE KEY-----\n","client_email":"firebase-adminsdk-xyz@ezyago-trading-bot.iam.gserviceaccount.com","client_id":"123456789012345678901","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/v1/metadata/x509/firebase-adminsdk-xyz%40ezyago-trading-bot.iam.gserviceaccount.com"}
+# Firebase Service Account Key (JSON formatında tek satırda)
+FIREBASE_SERVICE_ACCOUNT_KEY={"type":"service_account","project_id":"your-project-id",...}
 ```
 
 ### 🔑 Security Keys
