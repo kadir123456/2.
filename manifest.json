@@ -1,0 +1,31 @@
+{
+  "name": "CryptoBot Pro",
+  "short_name": "CryptoBot",
+  "description": "Otomatik Kripto Trading Platformu",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#6366f1",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0MEMyOC42NTQgNDAgNzIgNzIgNzIgMTEyUzcyIDE4NCA5NiAxODRTMTIwIDE1MiAxMjAgMTEyUzEyOCA0MCA5NiA0MFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik05NiA2NEM0MS4yIDY0IDk2IDk2IDk2IDk2Uzk2IDEyOCA5NiAxMjhTMTUwLjggOTYgOTYgOTZTOTYgNjQgOTYgNjRaIiBmaWxsPSIjNjM2NmYxIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSIxOTIiIHkyPSIxOTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzYzNjZmMSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik0yNTYgMTA3QzE3NC44IDEwNyAxOTIgMTkyIDE5MiAzMDBTMTkyIDQ5MiAyNTYgNDkyUzMyMCA0MDggMzIwIDMwMFMzNDIgMTA3IDI1NiAxMDdaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjU2IDE3MUMxMTAuNCAyNTYgMjU2IDI1NiAyNTYgMjU2UzI1NiAzNDIgMjU2IDM0MlM0MDEuNiAyNTYgMjU2IDI1NlMyNTYgMTcxIDI1NiAxNzFaIiBmaWxsPSIjNjM2NmYxIi8+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImdyYWRpZW50MF9saW5lYXJfMV8xIiB4MT0iMCIgeTE9IjAiIHgyPSI1MTIiIHkyPSI1MTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzYzNjZmMSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM4YjVjZjYiLz4KPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8L3N2Zz4K",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["finance", "productivity"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNTAiIGhlaWdodD0iNzIwIiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSIzMDAiIHk9IjEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIHJ4PSIxNiIgZmlsbD0id2hpdGUiLz4KPHRleHQgeD0iNjQwIiB5PSIzNjAiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzYzNjZmMSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q3J5cHRvQm90IFBybzwvdGV4dD4KPC9zdmc+",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ]
+}

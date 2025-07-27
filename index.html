@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoBot Pro - Otomatik Kripto Trading Platformu</title>
+    <link rel="stylesheet" href="src/styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+</head>
+<body>
+    <div id="app">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <!-- Navigation -->
+            <nav class="navbar">
+                <div class="container">
+                    <div class="nav-brand">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>EzyAgo</span>
+                        </div>
+                    </div>
+                    <div class="nav-menu">
+                        <a href="#features">Özellikler</a>
+                        <a href="#pricing">Fiyatlandırma</a>
+                        <button class="btn btn-outline" onclick="showPage('login')">Giriş Yap</button>
+                        <button class="btn btn-primary" onclick="showPage('register')">Ücretsiz Başla</button>
+                    </div>
+                    <div class="mobile-menu-toggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="gradient-text">Kripto Trading</span>
+                            Artık Çok Kolay
+                        </h1>
+                        <p class="hero-subtitle">
+                            Otomatik trading botu ile 7/24 kripto para kazanın. 
+                            Basit kurulum, güvenli işlemler.
+                        </p>
+                        <div class="hero-cta">
+                            <button class="btn btn-primary btn-large" onclick="showPage('register')">
+                                7 Gün Ücretsiz Dene
+                            </button>
+                        </div>
+                        <div class="hero-stats">
+                            <div class="stat">
+                                <div class="stat-value">500+</div>
+                                <div class="stat-label">Aktif Kullanıcı</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">%85</div>
+                                <div class="stat-label">Başarı Oranı</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-label">Otomatik</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="features">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Neden EzyAgo?</h2>
+                        <p>Kripto trading'i herkes için kolay hale getiriyoruz</p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🤖</div>
+                            <h3>Otomatik Trading</h3>
+                            <p>7/24 çalışan akıllı bot ile otomatik alım-satım</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Güvenli İşlemler</h3>
+                            <p>API anahtarlarınız şifrelenmiş olarak saklanır</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📱</div>
+                            <h3>Mobil Uyumlu</h3>
+                            <p>Telefon, tablet ve bilgisayardan kolayca erişim</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚙️</div>
+                            <h3>Kolay Kurulum</h3>
+                            <p>Sadece 3 adımda botunuzu çalıştırın</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Detaylı Raporlar</h3>
+                            <p>Kazançlarınızı ve işlemlerinizi takip edin</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💬</div>
+                            <h3>7/24 Destek</h3>
+                            <p>Her zaman yanınızdayız, sorularınızı cevaplayalım</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Section -->
+            <section id="pricing" class="pricing">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Şeffaf Fiyatlandırma</h2>
+                        <p>7 gün ücretsiz deneme ile başlayın</p>
+                    </div>
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Aylık Abonelik</h3>
+                            <div class="price">
+                                <span class="amount">15</span>
+                                <span class="currency">USDT</span>
+                                <span class="period">/ Ay</span>
+                            </div>
+                        </div>
+                        <div class="pricing-features">
+                            <div class="feature">✅ 7 gün ücretsiz deneme</div>
+                            <div class="feature">✅ Otomatik trading botu</div>
+                            <div class="feature">✅ Tüm özellikler dahil</div>
+                            <div class="feature">✅ Mobil uygulama</div>
+                            <div class="feature">✅ 24/7 müşteri desteği</div>
+                            <div class="feature">✅ İstediğiniz zaman iptal</div>
+                        </div>
+                        <button class="btn btn-primary btn-large" onclick="showPage('register')">
+                            7 Gün Ücretsiz Başla
+                        </button>
+                        <div class="pricing-note">
+                            Kredi kartı gerekmez • Sadece USDT ile ödeme
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Simple Steps Section -->
+            <section class="steps">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>3 Adımda Başlayın</h2>
+                        <p>Çok basit, herkes yapabilir</p>
+                    </div>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h3>Kayıt Olun</h3>
+                            <p>Email adresinizle ücretsiz hesap oluşturun</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h3>API Bağlayın</h3>
+                            <p>Binance API anahtarlarınızı güvenle ekleyin</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h3>Botu Başlatın</h3>
+                            <p>Ayarlarınızı yapın ve kazanmaya başlayın</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-section">
+                            <div class="logo">
+                                <div class="logo-icon">₿</div>
+                                <span>EzyAgo</span>
+                            </div>
+                            <p>Kripto trading'i herkes için kolay hale getiriyoruz.</p>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Platform</h4>
+                            <ul>
+                                <li><a href="#features">Özellikler</a></li>
+                                <li><a href="#pricing">Fiyatlandırma</a></li>
+                                <li><a href="#" onclick="showPage('register')">Kayıt Ol</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Destek</h4>
+                            <ul>
+                                <li><a href="#">Yardım Merkezi</a></li>
+                                <li><a href="#">İletişim</a></li>
+                                <li><a href="#">API Rehberi</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>Yasal</h4>
+                            <ul>
+                                <li><a href="#">Kullanım Koşulları</a></li>
+                                <li><a href="#">Gizlilik Politikası</a></li>
+                                <li><a href="#">Risk Bildirimi</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <p>&copy; 2024 EzyAgo. Tüm hakları saklıdır.</p>
+                        <div class="risk-warning">
+                            ⚠️ Risk Uyarısı: Kripto para trading'i yüksek risk içerir. Sadece kaybetmeyi göze alabileceğiniz miktarla işlem yapın.
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page auth-page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>CryptoBot Pro</span>
+                        </div>
+                        <h2>Hesabınıza Giriş Yapın</h2>
+                        <p>Trading botunuza erişim sağlayın</p>
+                    </div>
+                    <form class="auth-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>Email Adresi</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <input type="password" name="password" required>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox">
+                                <input type="checkbox" name="remember">
+                                <span>Beni hatırla</span>
+                            </label>
+                            <a href="#" onclick="showPage('forgot-password')">Şifremi unuttum</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">Giriş Yap</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Hesabınız yok mu? <a href="#" onclick="showPage('register')">Kayıt Olun</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page auth-page">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>CryptoBot Pro</span>
+                        </div>
+                        <h2>Ücretsiz Hesap Oluşturun</h2>
+                        <p>7 gün ücretsiz deneme ile başlayın</p>
+                    </div>
+                    <form class="auth-form" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label>Ad Soyad</label>
+                            <input type="text" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Adresi</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre</label>
+                            <input type="password" name="password" required minlength="8">
+                        </div>
+                        <div class="form-group">
+                            <label>Şifre Tekrar</label>
+                            <input type="password" name="confirmPassword" required>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox">
+                                <input type="checkbox" name="terms" required>
+                                <span><a href="#" onclick="showPage('terms')">Kullanım koşullarını</a> kabul ediyorum</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large">Hesap Oluştur</button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Zaten hesabınız var mı? <a href="#" onclick="showPage('login')">Giriş Yapın</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page dashboard-page">
+            <div class="dashboard-layout">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>CryptoBot Pro</span>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active" data-page="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Bot Ayarları</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="history">
+                            <span class="nav-icon">📈</span>
+                            <span>İşlem Geçmişi</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="subscription">
+                            <span class="nav-icon">💳</span>
+                            <span>Abonelik</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="profile">
+                            <span class="nav-icon">👤</span>
+                            <span>Profil</span>
+                        </a>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <button class="btn btn-outline btn-small" onclick="handleLogout()">
+                            Çıkış Yap
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Top Bar -->
+                    <div class="top-bar">
+                        <div class="page-title">
+                            <h1>Dashboard</h1>
+                            <p>Trading botunuzun performansını takip edin</p>
+                        </div>
+                        <div class="top-bar-actions">
+                            <div class="subscription-badge">
+                                <span class="badge-text">Pro Plan</span>
+                                <span class="badge-status active">Aktif</span>
+                            </div>
+                            <div class="user-menu">
+                                <div class="user-avatar">JD</div>
+                                <span>John Doe</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Content -->
+                    <div class="dashboard-content">
+                        <!-- Stats Cards -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Toplam Kar/Zarar</h3>
+                                    <div class="stat-trend positive">+12.4%</div>
+                                </div>
+                                <div class="stat-value positive">+$1,247.50</div>
+                                <div class="stat-subtitle">Son 30 gün</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Açık Pozisyonlar</h3>
+                                    <div class="stat-trend">3 Aktif</div>
+                                </div>
+                                <div class="stat-value">$750.00</div>
+                                <div class="stat-subtitle">Toplam hacim</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Win Rate</h3>
+                                    <div class="stat-trend positive">+2.1%</div>
+                                </div>
+                                <div class="stat-value">68.5%</div>
+                                <div class="stat-subtitle">Son 100 işlem</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Bot Durumu</h3>
+                                    <div class="status-indicator active">Çalışıyor</div>
+                                </div>
+                                <div class="stat-value">24/7</div>
+                                <div class="stat-subtitle">Uptime: 99.8%</div>
+                            </div>
+                        </div>
+
+                        <!-- Charts and Positions -->
+                        <div class="dashboard-grid">
+                            <div class="chart-card">
+                                <div class="card-header">
+                                    <h3>Performans Grafiği</h3>
+                                    <div class="chart-controls">
+                                        <button class="btn btn-small active">1G</button>
+                                        <button class="btn btn-small">1H</button>
+                                        <button class="btn btn-small">1A</button>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="performanceChart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="positions-card">
+                                <div class="card-header">
+                                    <h3>Açık Pozisyonlar</h3>
+                                    <button class="btn btn-small btn-primary">Yeni Pozisyon</button>
+                                </div>
+                                <div class="positions-list">
+                                    <div class="position-item">
+                                        <div class="position-info">
+                                            <div class="position-pair">BTC/USDT</div>
+                                            <div class="position-type long">Long</div>
+                                        </div>
+                                        <div class="position-details">
+                                            <div class="position-size">0.01 BTC</div>
+                                            <div class="position-pnl positive">+$45.20</div>
+                                        </div>
+                                    </div>
+                                    <div class="position-item">
+                                        <div class="position-info">
+                                            <div class="position-pair">ETH/USDT</div>
+                                            <div class="position-type short">Short</div>
+                                        </div>
+                                        <div class="position-details">
+                                            <div class="position-size">0.5 ETH</div>
+                                            <div class="position-pnl negative">-$12.80</div>
+                                        </div>
+                                    </div>
+                                    <div class="position-item">
+                                        <div class="position-info">
+                                            <div class="position-pair">ADA/USDT</div>
+                                            <div class="position-type long">Long</div>
+                                        </div>
+                                        <div class="position-details">
+                                            <div class="position-size">1000 ADA</div>
+                                            <div class="position-pnl positive">+$23.40</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Trades -->
+                        <div class="trades-card">
+                            <div class="card-header">
+                                <h3>Son İşlemler</h3>
+                                <button class="btn btn-small">Tümünü Gör</button>
+                            </div>
+                            <div class="trades-table">
+                                <div class="table-header">
+                                    <div>Çift</div>
+                                    <div>Tür</div>
+                                    <div>Miktar</div>
+                                    <div>Fiyat</div>
+                                    <div>P&L</div>
+                                    <div>Zaman</div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="trade-pair">BTC/USDT</div>
+                                    <div class="trade-type sell">Sell</div>
+                                    <div>0.001</div>
+                                    <div>$45,230</div>
+                                    <div class="pnl positive">+$15.20</div>
+                                    <div>2 dk önce</div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="trade-pair">ETH/USDT</div>
+                                    <div class="trade-type buy">Buy</div>
+                                    <div>0.1</div>
+                                    <div>$2,680</div>
+                                    <div class="pnl positive">+$8.50</div>
+                                    <div>5 dk önce</div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="trade-pair">BNB/USDT</div>
+                                    <div class="trade-type sell">Sell</div>
+                                    <div>2</div>
+                                    <div>$320</div>
+                                    <div class="pnl negative">-$3.20</div>
+                                    <div>12 dk önce</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div id="settings-page" class="page dashboard-page">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>CryptoBot Pro</span>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item" data-page="dashboard">
+                            <span class="nav-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-item active" data-page="settings">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Bot Ayarları</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="history">
+                            <span class="nav-icon">📈</span>
+                            <span>İşlem Geçmişi</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="subscription">
+                            <span class="nav-icon">💳</span>
+                            <span>Abonelik</span>
+                        </a>
+                        <a href="#" class="nav-item" data-page="profile">
+                            <span class="nav-icon">👤</span>
+                            <span>Profil</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="page-title">
+                            <h1>Bot Ayarları</h1>
+                            <p>Trading botunuzu konfigüre edin</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-content">
+                        <div class="settings-grid">
+                            <!-- API Settings -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Binance API Ayarları</h3>
+                                    <div class="api-status connected">Bağlı</div>
+                                </div>
+                                <form class="settings-form">
+                                    <div class="form-group">
+                                        <label>API Key</label>
+                                        <input type="password" value="********************" placeholder="Binance API Key">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Secret Key</label>
+                                        <input type="password" value="********************" placeholder="Binance Secret Key">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span>Testnet Kullan</span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </form>
+                            </div>
+
+                            <!-- Trading Settings -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Trading Parametreleri</h3>
+                                </div>
+                                <form class="settings-form">
+                                    <div class="form-group">
+                                        <label>Leverage</label>
+                                        <select name="leverage">
+                                            <option value="1">1x</option>
+                                            <option value="5">5x</option>
+                                            <option value="10" selected>10x</option>
+                                            <option value="20">20x</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Position Size (USDT)</label>
+                                        <input type="number" value="25" min="10" max="1000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Stop Loss (%)</label>
+                                        <input type="number" value="2" min="0.5" max="10" step="0.1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Take Profit (%)</label>
+                                        <input type="number" value="4" min="1" max="20" step="0.1">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </form>
+                            </div>
+
+                            <!-- Strategy Settings -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Strateji Ayarları</h3>
+                                </div>
+                                <form class="settings-form">
+                                    <div class="form-group">
+                                        <label>Strateji</label>
+                                        <select name="strategy">
+                                            <option value="ema_cross" selected>EMA Crossover</option>
+                                            <option value="rsi_divergence">RSI Divergence</option>
+                                            <option value="macd_signal">MACD Signal</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Timeframe</label>
+                                        <select name="timeframe">
+                                            <option value="1m">1 Dakika</option>
+                                            <option value="5m" selected>5 Dakika</option>
+                                            <option value="15m">15 Dakika</option>
+                                            <option value="1h">1 Saat</option>
+                                            <option value="4h">4 Saat</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>EMA Kısa Periyot</label>
+                                        <input type="number" value="9" min="5" max="50">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>EMA Uzun Periyot</label>
+                                        <input type="number" value="21" min="10" max="100">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </form>
+                            </div>
+
+                            <!-- Risk Management -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Risk Yönetimi</h3>
+                                </div>
+                                <form class="settings-form">
+                                    <div class="form-group">
+                                        <label>Günlük Maximum Zarar (%)</label>
+                                        <input type="number" value="10" min="1" max="20">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Maximum Drawdown (%)</label>
+                                        <input type="number" value="20" min="5" max="50">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span>Zarar durumunda botu durdur</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span>Email bildirimleri gönder</span>
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                                </form>
+                            </div>
+
+                            <!-- Active Pairs -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Aktif Coin Çiftleri</h3>
+                                </div>
+                                <div class="pairs-list">
+                                    <div class="pair-item">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span>BTC/USDT</span>
+                                        </label>
+                                        <div class="pair-status active">Aktif</div>
+                                    </div>
+                                    <div class="pair-item">
+                                        <label class="checkbox">
+                                            <input type="checkbox" checked>
+                                            <span>ETH/USDT</span>
+                                        </label>
+                                        <div class="pair-status active">Aktif</div>
+                                    </div>
+                                    <div class="pair-item">
+                                        <label class="checkbox">
+                                            <input type="checkbox">
+                                            <span>BNB/USDT</span>
+                                        </label>
+                                        <div class="pair-status">İnaktif</div>
+                                    </div>
+                                    <div class="pair-item">
+                                        <label class="checkbox">
+                                            <input type="checkbox">
+                                            <span>ADA/USDT</span>
+                                        </label>
+                                        <div class="pair-status">İnaktif</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bot Control -->
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3>Bot Kontrolü</h3>
+                                </div>
+                                <div class="bot-control">
+                                    <div class="bot-status">
+                                        <div class="status-indicator active"></div>
+                                        <div>
+                                            <h4>Bot Durumu: Çalışıyor</h4>
+                                            <p>Son güncelleme: 2 dakika önce</p>
+                                        </div>
+                                    </div>
+                                    <div class="control-buttons">
+                                        <button class="btn btn-danger">Botu Durdur</button>
+                                        <button class="btn btn-warning">Restart</button>
+                                        <button class="btn btn-outline">Test Çalıştır</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Page -->
+        <div id="admin-page" class="page dashboard-page">
+            <div class="dashboard-layout">
+                <div class="sidebar">
+                    <div class="sidebar-header">
+                        <div class="logo">
+                            <div class="logo-icon">₿</div>
+                            <span>Admin Panel</span>
+                        </div>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active">
+                            <span class="nav-icon">📊</span>
+                            <span>Genel Bakış</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span class="nav-icon">👥</span>
+                            <span>Kullanıcılar</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span class="nav-icon">💳</span>
+                            <span>Ödemeler</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span class="nav-icon">📈</span>
+                            <span>İstatistikler</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <span class="nav-icon">⚙️</span>
+                            <span>Sistem</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <div class="main-content">
+                    <div class="top-bar">
+                        <div class="page-title">
+                            <h1>Admin Panel</h1>
+                            <p>Sistem yönetimi ve kullanıcı kontrolü</p>
+                        </div>
+                    </div>
+
+                    <div class="admin-content">
+                        <!-- Admin Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Toplam Kullanıcı</h3>
+                                    <div class="stat-trend positive">+12</div>
+                                </div>
+                                <div class="stat-value">1,247</div>
+                                <div class="stat-subtitle">Bu ay yeni: 156</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Aktif Abonelik</h3>
+                                    <div class="stat-trend positive">+8.5%</div>
+                                </div>
+                                <div class="stat-value">892</div>
+                                <div class="stat-subtitle">Conversion: 71.5%</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Aylık Gelir</h3>
+                                    <div class="stat-trend positive">+$850</div>
+                                </div>
+                                <div class="stat-value">$8,920</div>
+                                <div class="stat-subtitle">USDT cinsinden</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-header">
+                                    <h3>Sistem Durumu</h3>
+                                    <div class="status-indicator active">Online</div>
+                                </div>
+                                <div class="stat-value">99.8%</div>
+                                <div class="stat-subtitle">Uptime</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Users -->
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Yeni Kullanıcılar</h3>
+                                <button class="btn btn-small">Tümünü Gör</button>
+                            </div>
+                            <div class="users-table">
+                                <div class="table-header">
+                                    <div>Kullanıcı</div>
+                                    <div>Email</div>
+                                    <div>Kayıt Tarihi</div>
+                                    <div>Durum</div>
+                                    <div>İşlem</div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="user-info">
+                                        <div class="user-avatar">JD</div>
+                                        <span>John Doe</span>
+                                    </div>
+                                    <div>john@example.com</div>
+                                    <div>2 gün önce</div>
+                                    <div><span class="badge active">Aktif</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Düzenle</button>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="user-info">
+                                        <div class="user-avatar">MS</div>
+                                        <span>Mary Smith</span>
+                                    </div>
+                                    <div>mary@example.com</div>
+                                    <div>3 gün önce</div>
+                                    <div><span class="badge trial">Trial</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Düzenle</button>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div class="user-info">
+                                        <div class="user-avatar">RJ</div>
+                                        <span>Robert Johnson</span>
+                                    </div>
+                                    <div>robert@example.com</div>
+                                    <div>5 gün önce</div>
+                                    <div><span class="badge expired">Expired</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Düzenle</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Payments -->
+                        <div class="admin-card">
+                            <div class="card-header">
+                                <h3>Son Ödemeler</h3>
+                                <button class="btn btn-small">Tümünü Gör</button>
+                            </div>
+                            <div class="payments-table">
+                                <div class="table-header">
+                                    <div>Kullanıcı</div>
+                                    <div>Miktar</div>
+                                    <div>Tarih</div>
+                                    <div>Durum</div>
+                                    <div>İşlem</div>
+                                </div>
+                                <div class="table-row">
+                                    <div>John Doe</div>
+                                    <div>$10 USDT</div>
+                                    <div>1 gün önce</div>
+                                    <div><span class="badge success">Onaylandı</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Detay</button>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div>Mary Smith</div>
+                                    <div>$10 USDT</div>
+                                    <div>2 gün önce</div>
+                                    <div><span class="badge warning">Bekliyor</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Onayla</button>
+                                    </div>
+                                </div>
+                                <div class="table-row">
+                                    <div>Robert Johnson</div>
+                                    <div>$10 USDT</div>
+                                    <div>4 gün önce</div>
+                                    <div><span class="badge danger">Reddedildi</span></div>
+                                    <div>
+                                        <button class="btn btn-small">Detay</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="src/js/app.js"></script>
+</body>
+</html>

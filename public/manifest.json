@@ -1,0 +1,67 @@
+{
+  "name": "CryptoBot Pro - Otomatik Kripto Trading",
+  "short_name": "CryptoBot Pro",
+  "description": "Profesyonel kripto trading bot platformu. EMA crossover stratejisi ile otomatik long/short pozisyonlar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#6366f1",
+  "theme_color": "#6366f1",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "tr",
+  "categories": ["finance", "productivity", "business"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEM2NC4yIDQ4IDM4IDc0LjIgMzggMTA2UzY0LjIgMTY0IDk2IDE2NFMxNTQgMTM3LjggMTU0IDEwNlMxMjcuOCA0OCA5NiA0OFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik05NiA3MkM3OC4zIDcyIDY0IDg2LjMgNjQgMTA0Uzc4LjMgMTM2IDk2IDEzNlMxMjggMTIxLjcgMTI4IDEwNFMxMTMuNyA3MiA5NiA3MloiIGZpbGw9IiM2MzY2ZjEiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjE5MiIgeTI9IjE5MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjM2NmYxIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhiNWNmNiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik0yNTYgMTI4QzE3MS4yIDEyOCAxMDIgMTk3LjIgMTAyIDI4MlMxNzEuMiA0MzYgMjU2IDQzNlM0MTAgMzY2LjggNDEwIDI4MlMzNDAuOCAxMjggMjU2IDEyOFoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yNTYgMTkyQzIwOC44IDE5MiAxNzEgMjI5LjggMTcxIDI3N1MyMDguOCAzNjIgMjU2IDM2MlMzNDEgMzI0LjIgMzQxIDI3N1MzMDMuMiAxOTIgMjU2IDE5MloiIGZpbGw9IiM2MzY2ZjEiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjUxMiIgeTI9IjUxMiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjM2NmYxIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhiNWNmNiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTI4MCIgaGVpZ2h0PSI3MjAiIHZpZXdCb3g9IjAgMCAxMjgwIDcyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyODAiIGhlaWdodD0iNzIwIiBmaWxsPSIjZjlmYWZiIi8+CjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyNTAiIGhlaWdodD0iNzIwIiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSIzMDAiIHk9IjEwMCIgd2lkdGg9IjkwMCIgaGVpZ2h0PSI1MDAiIHJ4PSIxNiIgZmlsbD0id2hpdGUiLz4KPHRleHQgeD0iNjQwIiB5PSIzNjAiIGZvbnQtZmFtaWx5PSJJbnRlciIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzYzNjZmMSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q3J5cHRvQm90IFBybzwvdGV4dD4KPC9zdmc+",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide",
+      "label": "Dashboard görünümü"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Trading dashboard'una git",
+      "url": "/#dashboard-page",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiM2MzY2ZjEiLz4KPHBhdGggZD0iTTQ4IDI0QzM0LjcgMjQgMjQgMzQuNyAyNCA0OFMzNC43IDcyIDQ4IDcyUzcyIDYxLjMgNzIgNDhTNjEuMyAyNCA0OCAyNFoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Bot Ayarları",
+      "short_name": "Ayarlar",
+      "description": "Bot ayarlarını düzenle",
+      "url": "/#settings-page",
+      "icons": [
+        {
+          "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCA5NiA5NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9Ijk2IiBoZWlnaHQ9Ijk2IiByeD0iMTIiIGZpbGw9IiM4YjVjZjYiLz4KPHBhdGggZD0iTTQ4IDM2QzQxLjQgMzYgMzYgNDEuNCAzNiA0OFM0MS40IDYwIDQ4IDYwUzYwIDU0LjYgNjAgNDhTNTQuNiAzNiA0OCAzNloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
