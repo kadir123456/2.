@@ -422,6 +422,10 @@ window.toggleMobileMenu = function() {
     }
 };
 
+// API Base URL
+window.API_BASE_URL = '/api';
+console.log('API Base URL set to:', window.API_BASE_URL);
+
 // Error handling
 window.addEventListener('error', (e) => {
     console.error('Application error:', e.error);
