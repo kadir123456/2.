@@ -1,5 +1,14 @@
 // Admin Panel Management
-window.AdminManager = class AdminManager {
+let adminManager;
+
+(function() {
+    'use strict';
+    
+    if (window.adminManager) {
+        return; // Already initialized
+    }
+
+class AdminManager {
     constructor() {
         this.currentSection = 'overview';
         this.init();
@@ -12,10 +21,10 @@ window.AdminManager = class AdminManager {
 
     setupEventListeners() {
         // Admin navigation
-        document.querySelectorAll('.nav-item[data-section]').forEach(item => {
+        document.querySelectorAll('.nav-item[data-admin-section]').forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-                const section = item.getAttribute('data-section');
+                const section = item.getAttribute('data-admin-section');
                 this.showAdminSection(section);
             });
         });
@@ -29,10 +38,10 @@ window.AdminManager = class AdminManager {
 
     showAdminSection(section) {
         // Update navigation
-        document.querySelectorAll('.nav-item[data-section]').forEach(item => {
+        document.querySelectorAll('.nav-item[data-admin-section]').forEach(item => {
             item.classList.remove('active');
         });
-        document.querySelector(`[data-section="${section}"]`)?.classList.add('active');
+        document.querySelector(`[data-admin-section="${section}"]`)?.classList.add('active');
 
         // Show section
         document.querySelectorAll('.admin-section').forEach(sec => {
@@ -348,14 +357,14 @@ window.AdminManager = class AdminManager {
             const data = await response.json();
 
             if (response.ok) {
-                showNotification('Duyuru başarıyla yayınlandı!', 'success');
+                window.showNotification('Duyuru başarıyla yayınlandı!', 'success');
                 form.reset();
             } else {
                 throw new Error(data.error || 'Duyuru yayınlanamadı');
             }
         } catch (error) {
             console.error('Announcement error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         } finally {
             this.setButtonLoading(submitBtn, false);
         }
@@ -375,14 +384,14 @@ window.AdminManager = class AdminManager {
             const data = await response.json();
 
             if (response.ok) {
-                showNotification(`${days} günlük abonelik başarıyla verildi!`, 'success');
+                window.showNotification(`${days} günlük abonelik başarıyla verildi!`, 'success');
                 this.loadOverviewData(); // Refresh data
             } else {
                 throw new Error(data.error || 'Abonelik verilemedi');
             }
         } catch (error) {
             console.error('Grant subscription error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         }
     }
 
@@ -401,32 +410,32 @@ window.AdminManager = class AdminManager {
 
             if (response.ok) {
                 const action = currentlyBlocked ? 'engeli kaldırıldı' : 'engellendi';
-                showNotification(`Kullanıcı ${action}!`, 'success');
+                window.showNotification(`Kullanıcı ${action}!`, 'success');
                 this.loadUsersData(); // Refresh data
             } else {
                 throw new Error(data.error || 'Kullanıcı durumu değiştirilemedi');
             }
         } catch (error) {
             console.error('Toggle user status error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         }
     }
 
     async approvePayment(paymentId) {
         // This would be implemented with actual payment approval logic
-        showNotification('Ödeme onaylandı! (Demo)', 'success');
+        window.showNotification('Ödeme onaylandı! (Demo)', 'success');
         this.loadPaymentsData();
     }
 
     async rejectPayment(paymentId) {
         // This would be implemented with actual payment rejection logic
-        showNotification('Ödeme reddedildi! (Demo)', 'info');
+        window.showNotification('Ödeme reddedildi! (Demo)', 'info');
         this.loadPaymentsData();
     }
 
     viewPaymentDetails(paymentId) {
         // This would show payment details in a modal
-        showNotification('Ödeme detayları (Demo)', 'info');
+        window.showNotification('Ödeme detayları (Demo)', 'info');
     }
 
     getUserInitials(name) {
@@ -467,11 +476,8 @@ window.AdminManager = class AdminManager {
     }
 }
 
+    // Create global instance
+    adminManager = new AdminManager();
+    window.adminManager = adminManager;
 
-// Global admin functions
-function showAdminSection(section) {
-    if (!window.adminManager) {
-        window.adminManager = new window.AdminManager();
-    }
-    window.adminManager.showAdminSection(section);
-}
+})();
