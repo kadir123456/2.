@@ -69,8 +69,22 @@ class App {
         this.showLoadingScreen();
 
         try {
-            // Initialize Firebase and check auth state
-            await this.waitForFirebase();
+            // Wait for environment config to load
+            let attempts = 0;
+            while (!window.ENV && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
+            if (!window.ENV) {
+                throw new Error('Environment config not loaded');
+            }
+            
+            // Wait for Firebase to be ready
+            if (typeof auth === 'undefined') {
+                console.log('Waiting for Firebase to load...');
+                await new Promise(resolve => setTimeout(resolve, 3000));
+            }
             
             // Check if user is already authenticated
             const user = auth.currentUser;
@@ -94,14 +108,6 @@ class App {
         }
     }
 
-    waitForFirebase() {
-        return new Promise((resolve) => {
-            const unsubscribe = auth.onAuthStateChanged((user) => {
-                unsubscribe();
-                resolve(user);
-            });
-        });
-    }
 
     showLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
