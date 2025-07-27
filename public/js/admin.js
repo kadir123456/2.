@@ -1,5 +1,5 @@
 // Admin Panel Management
-class AdminManager {
+window.AdminManager = class AdminManager {
     constructor() {
         this.currentSection = 'overview';
         this.init();
@@ -63,12 +63,12 @@ class AdminManager {
     }
 
     async loadAdminData() {
-        if (!authManager.isAuthenticated()) return;
+        if (!window.authManager?.isAuthenticated()) return;
 
         try {
             // Load admin stats
             const response = await fetch(`${API_BASE_URL}/admin/stats`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -101,7 +101,7 @@ class AdminManager {
         try {
             // Load recent users
             const usersResponse = await fetch(`${API_BASE_URL}/admin/users?limit=5`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (usersResponse.ok) {
@@ -111,7 +111,7 @@ class AdminManager {
 
             // Load recent payments
             const paymentsResponse = await fetch(`${API_BASE_URL}/admin/payments?limit=5`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (paymentsResponse.ok) {
@@ -194,7 +194,7 @@ class AdminManager {
     async loadUsersData() {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/users`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -267,7 +267,7 @@ class AdminManager {
     async loadPaymentsData() {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/payments`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -339,7 +339,7 @@ class AdminManager {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/announcement`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify({
                     message: formData.get('message')
                 })
@@ -365,7 +365,7 @@ class AdminManager {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/grant-subscription`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify({
                     userId,
                     days
@@ -390,7 +390,7 @@ class AdminManager {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/toggle-user-status`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify({
                     userId,
                     blocked: !currentlyBlocked
@@ -467,13 +467,11 @@ class AdminManager {
     }
 }
 
-// Initialize admin manager
-let adminManager;
 
 // Global admin functions
 function showAdminSection(section) {
-    if (!adminManager) {
-        adminManager = new AdminManager();
+    if (!window.adminManager) {
+        window.adminManager = new window.AdminManager();
     }
-    adminManager.showAdminSection(section);
+    window.adminManager.showAdminSection(section);
 }
