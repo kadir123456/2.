@@ -13,6 +13,8 @@ const userRoutes = require('./src/routes/user');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust proxy for Render.com
+app.set('trust proxy', 1);
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: {
@@ -52,6 +54,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Environment variables endpoint for frontend
 app.get('/api/config', (req, res) => {
+  console.log('Config endpoint called');
+  console.log('Environment variables check:', {
+    hasApiKey: !!process.env.FIREBASE_API_KEY,
+    hasAuthDomain: !!process.env.FIREBASE_AUTH_DOMAIN,
+    hasProjectId: !!process.env.FIREBASE_PROJECT_ID
+  });
+  
   res.json({
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
@@ -97,6 +106,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔥 Firebase Project: ${process.env.FIREBASE_PROJECT_ID || 'Not configured'}`);
+  console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'Not configured'}`);
 });
 
 module.exports = app;
