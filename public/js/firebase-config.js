@@ -17,13 +17,19 @@ let firebaseConfigManager;
 
         async loadConfig() {
             try {
+                console.log('Loading Firebase config from:', `${window.API_BASE_URL}/config`);
                 const response = await fetch('/api/config');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 
                 this.config = await response.json();
-                console.log('✅ Environment config loaded');
+                console.log('✅ Environment config loaded:', {
+                    hasApiKey: !!this.config.FIREBASE_API_KEY,
+                    hasAuthDomain: !!this.config.FIREBASE_AUTH_DOMAIN,
+                    hasProjectId: !!this.config.FIREBASE_PROJECT_ID,
+                    projectId: this.config.FIREBASE_PROJECT_ID
+                });
                 return this.config;
             } catch (error) {
                 console.error('❌ Failed to load environment config:', error);
