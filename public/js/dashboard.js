@@ -183,27 +183,47 @@ class DashboardManager {
         const uptimeEl = document.getElementById('bot-uptime');
 
         if (data.isActive) {
-            statusIndicator?.classList.add('active');
-            statusIndicator.textContent = 'Aktif';
+            if (statusIndicator) {
+                statusIndicator.classList.add('active');
+                statusIndicator.textContent = 'Aktif';
+            }
             
-            currentStatus?.querySelector('.status-dot')?.classList.add('active');
-            currentStatus?.querySelector('.status-dot')?.classList.remove('offline');
-            currentStatus?.querySelector('span').textContent = 'Bot Çalışıyor';
+            if (currentStatus) {
+                const statusDot = currentStatus.querySelector('.status-dot');
+                const statusText = currentStatus.querySelector('span');
+                if (statusDot) {
+                    statusDot.classList.add('active');
+                    statusDot.classList.remove('offline');
+                }
+                if (statusText) {
+                    statusText.textContent = 'Bot Çalışıyor';
+                }
+            }
             
-            startBtn.style.display = 'none';
-            stopBtn.style.display = 'inline-flex';
+            if (startBtn) startBtn.style.display = 'none';
+            if (stopBtn) stopBtn.style.display = 'inline-flex';
             
             if (uptimeEl) uptimeEl.textContent = 'Online';
         } else {
-            statusIndicator?.classList.remove('active');
-            statusIndicator.textContent = 'Durdu';
+            if (statusIndicator) {
+                statusIndicator.classList.remove('active');
+                statusIndicator.textContent = 'Durdu';
+            }
             
-            currentStatus?.querySelector('.status-dot')?.classList.remove('active');
-            currentStatus?.querySelector('.status-dot')?.classList.add('offline');
-            currentStatus?.querySelector('span').textContent = 'Bot Durdu';
+            if (currentStatus) {
+                const statusDot = currentStatus.querySelector('.status-dot');
+                const statusText = currentStatus.querySelector('span');
+                if (statusDot) {
+                    statusDot.classList.remove('active');
+                    statusDot.classList.add('offline');
+                }
+                if (statusText) {
+                    statusText.textContent = 'Bot Durdu';
+                }
+            }
             
-            startBtn.style.display = 'inline-flex';
-            stopBtn.style.display = 'none';
+            if (startBtn) startBtn.style.display = 'inline-flex';
+            if (stopBtn) stopBtn.style.display = 'none';
             
             if (uptimeEl) uptimeEl.textContent = 'Offline';
         }
