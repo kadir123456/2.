@@ -1,17 +1,18 @@
-// Firebase Configuration
+// Firebase Configuration from Environment Variables
 const firebaseConfig = {
-    // Production Firebase config - Bu değerler gerçek Firebase projenizden alınmalı
-    apiKey: "AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    authDomain: "ezyago-trading-bot.firebaseapp.com",
-    projectId: "ezyago-trading-bot",
-    storageBucket: "ezyago-trading-bot.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:abcdef123456789012345",
-    databaseURL: "https://ezyago-trading-bot-default-rtdb.firebaseio.com/"
+    apiKey: window.ENV?.FIREBASE_API_KEY || "demo-api-key",
+    authDomain: window.ENV?.FIREBASE_AUTH_DOMAIN || "demo.firebaseapp.com",
+    projectId: window.ENV?.FIREBASE_PROJECT_ID || "demo-project",
+    storageBucket: window.ENV?.FIREBASE_STORAGE_BUCKET || "demo-project.appspot.com",
+    messagingSenderId: window.ENV?.FIREBASE_MESSAGING_SENDER_ID || "123456789012",
+    appId: window.ENV?.FIREBASE_APP_ID || "1:123456789012:web:demo",
+    databaseURL: window.ENV?.FIREBASE_DATABASE_URL || "https://demo-project-default-rtdb.firebaseio.com/"
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 
 // Initialize Firebase services
 const auth = firebase.auth();
@@ -22,4 +23,4 @@ const API_BASE_URL = window.location.hostname === 'localhost'
     ? 'http://localhost:3000/api' 
     : window.location.origin + '/api';
 
-console.log('🔥 Firebase initialized');
+console.log('🔥 Firebase initialized with environment config');
