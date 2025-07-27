@@ -1,8 +1,18 @@
 // Dashboard Management
-window.DashboardManager = class DashboardManager {
+let dashboardManager;
+
+(function() {
+    'use strict';
+    
+    if (window.dashboardManager) {
+        return; // Already initialized
+    }
+
+class DashboardManager {
     constructor() {
         this.performanceChart = null;
         this.refreshInterval = null;
+        this.realTimeInterval = null;
         this.init();
     }
 
@@ -25,6 +35,7 @@ window.DashboardManager = class DashboardManager {
         // Bot control buttons
         const startBotBtn = document.getElementById('start-bot-btn');
         const stopBotBtn = document.getElementById('stop-bot-btn');
+        const emergencyStopBtn = document.getElementById('emergency-stop-btn');
         
         if (startBotBtn) {
             startBotBtn.addEventListener('click', () => this.startBot());
@@ -32,6 +43,10 @@ window.DashboardManager = class DashboardManager {
         
         if (stopBotBtn) {
             stopBotBtn.addEventListener('click', () => this.stopBot());
+        }
+        
+        if (emergencyStopBtn) {
+            emergencyStopBtn.addEventListener('click', () => this.emergencyStop());
         }
 
         // Settings forms
@@ -80,10 +95,10 @@ window.DashboardManager = class DashboardManager {
                 this.showDashboard();
                 break;
             case 'settings':
-                showPage('settings-page');
+                window.app?.showPage('settings-page');
                 break;
             case 'subscription':
-                showPage('subscription-page');
+                window.app?.showPage('subscription-page');
                 this.loadSubscriptionData();
                 break;
             case 'history':
@@ -96,7 +111,7 @@ window.DashboardManager = class DashboardManager {
     }
 
     showDashboard() {
-        showPage('dashboard-page');
+        window.app?.showPage('dashboard-page');
         this.loadDashboardData();
     }
 
@@ -345,7 +360,7 @@ window.DashboardManager = class DashboardManager {
             const symbol = 'BTCUSDT'; // This should come from user settings
             
             const response = await fetch(`${API_BASE_URL}/bot/market-data/${symbol}`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -401,6 +416,34 @@ window.DashboardManager = class DashboardManager {
         }
     }
 
+    async emergencyStop() {
+        if (!window.authManager?.isAuthenticated()) return;
+
+        const emergencyBtn = document.getElementById('emergency-stop-btn');
+        this.setButtonLoading(emergencyBtn, true);
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/bot/emergency-stop`, {
+                method: 'POST',
+                headers: window.authManager.getAuthHeaders()
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                window.showNotification('Acil durdurma başarılı!', 'warning');
+                await this.loadBotStatus();
+            } else {
+                throw new Error(data.error || 'Acil durdurma başarısız');
+            }
+        } catch (error) {
+            console.error('Emergency stop error:', error);
+            window.showNotification(error.message, 'error');
+        } finally {
+            this.setButtonLoading(emergencyBtn, false);
+        }
+    }
+
     async handleApiSettings(event) {
         event.preventDefault();
         const form = event.target;
@@ -422,7 +465,7 @@ window.DashboardManager = class DashboardManager {
             const data = await response.json();
 
             if (response.ok) {
-                showNotification('API ayarları başarıyla kaydedildi!', 'success');
+                window.showNotification('API ayarları başarıyla kaydedildi!', 'success');
                 form.reset();
                 
                 // Update API status
@@ -436,7 +479,7 @@ window.DashboardManager = class DashboardManager {
             }
         } catch (error) {
             console.error('API settings error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         } finally {
             this.setButtonLoading(submitBtn, false);
         }
@@ -469,13 +512,13 @@ window.DashboardManager = class DashboardManager {
             const data = await response.json();
 
             if (response.ok) {
-                showNotification('Trading ayarları başarıyla kaydedildi!', 'success');
+                window.showNotification('Trading ayarları başarıyla kaydedildi!', 'success');
             } else {
                 throw new Error(data.error || 'Trading ayarları kaydedilemedi');
             }
         } catch (error) {
             console.error('Trading settings error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         } finally {
             this.setButtonLoading(submitBtn, false);
         }
@@ -502,14 +545,14 @@ window.DashboardManager = class DashboardManager {
             const data = await response.json();
 
             if (response.ok) {
-                showNotification('Ödeme bildirimi başarıyla gönderildi! Admin onayından sonra aboneliğiniz aktif olacak.', 'success');
+                window.showNotification('Ödeme bildirimi başarıyla gönderildi! Admin onayından sonra aboneliğiniz aktif olacak.', 'success');
                 form.reset();
             } else {
                 throw new Error(data.error || 'Ödeme bildirimi gönderilemedi');
             }
         } catch (error) {
             console.error('Payment report error:', error);
-            showNotification(error.message, 'error');
+            window.showNotification(error.message, 'error');
         } finally {
             this.setButtonLoading(submitBtn, false);
         }
@@ -702,10 +745,17 @@ window.DashboardManager = class DashboardManager {
         if (this.refreshInterval) {
             clearInterval(this.refreshInterval);
         }
+        if (this.realTimeInterval) {
+            clearInterval(this.realTimeInterval);
+        }
         if (this.performanceChart) {
             this.performanceChart.destroy();
         }
     }
 }
 
-// Initialize dashboard manager
+    // Create global instance
+    dashboardManager = new DashboardManager();
+    window.dashboardManager = dashboardManager;
+
+})();
