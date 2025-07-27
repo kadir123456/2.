@@ -15,13 +15,10 @@ class App {
     setupEventListeners() {
         // Page navigation
         document.addEventListener('click', (e) => {
-            if (e.target.matches('[onclick*="showPage"]')) {
+            if (e.target.matches('[data-page]')) {
                 e.preventDefault();
-                const onclick = e.target.getAttribute('onclick');
-                const pageMatch = onclick.match(/showPage\('([^']+)'\)/);
-                if (pageMatch) {
-                    this.showPage(pageMatch[1]);
-                }
+                const pageId = e.target.getAttribute('data-page');
+                this.showPage(pageId);
             }
         });
 
@@ -69,36 +66,14 @@ class App {
         this.showLoadingScreen();
 
         try {
-            // Wait for Firebase to be ready
-            let attempts = 0;
-            while (!window.firebaseConfigManager?.isInitialized && attempts < 100) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
-            }
+            // Wait for Firebase config manager
+            await this.waitForFirebaseConfig();
             
-            if (!window.firebaseConfigManager?.isInitialized) {
-                throw new Error('Firebase not initialized');
-            }
-            
-            // Wait for auth manager to be ready
-            attempts = 0;
-            while (!window.authManager?.isReady && attempts < 50) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
-            }
+            // Wait for auth manager
+            await this.waitForAuthManager();
             
             // Check if user is already authenticated
-            const user = window.auth?.currentUser;
-            if (user) {
-                // Check if admin
-                if (user.email === 'admin@ezyago.com') {
-                    this.showPage('admin-page');
-                } else {
-                    this.showPage('dashboard-page');
-                }
-            } else {
-                this.showPage('landing-page');
-            }
+            await this.checkAuthState();
 
         } catch (error) {
             console.error('App initialization error:', error);
@@ -109,6 +84,55 @@ class App {
         }
     }
 
+    async waitForFirebaseConfig() {
+        let attempts = 0;
+        while (!window.firebaseConfigManager?.isInitialized && attempts < 100) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        if (!window.firebaseConfigManager?.isInitialized) {
+            throw new Error('Firebase config not initialized');
+        }
+    }
+
+    async waitForAuthManager() {
+        let attempts = 0;
+        while (!window.authManager?.isReady && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+        
+        if (!window.authManager?.isReady) {
+            throw new Error('Auth manager not ready');
+        }
+    }
+
+    async checkAuthState() {
+        // Check for saved auth state
+        const savedToken = localStorage.getItem('authToken');
+        const savedUser = localStorage.getItem('currentUser');
+        
+        if (savedToken && savedUser) {
+            try {
+                const user = JSON.parse(savedUser);
+                // Check if admin
+                if (user.email === 'admin@ezyago.com') {
+                    this.showPage('admin-page');
+                } else {
+                    this.showPage('dashboard-page');
+                }
+                return;
+            } catch (e) {
+                // Clear invalid saved data
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('currentUser');
+            }
+        }
+        
+        // No valid auth state, show landing page
+        this.showPage('landing-page');
+    }
 
     showLoadingScreen() {
         const loadingScreen = document.getElementById('loading-screen');
@@ -161,28 +185,28 @@ class App {
         switch (pageId) {
             case 'dashboard-page':
                 if (!window.dashboardManager) {
-                    window.dashboardManager = new window.DashboardManager();
+                    // Dashboard manager is already initialized
                 } else {
                     window.dashboardManager.loadDashboardData();
                 }
                 break;
             case 'settings-page':
                 if (!window.dashboardManager) {
-                    window.dashboardManager = new window.DashboardManager();
+                    // Dashboard manager is already initialized
                 } else {
                     window.dashboardManager.loadSystemInfo();
                 }
                 break;
             case 'subscription-page':
                 if (!window.dashboardManager) {
-                    window.dashboardManager = new window.DashboardManager();
+                    // Dashboard manager is already initialized
                 } else {
                     window.dashboardManager.loadSubscriptionData();
                 }
                 break;
             case 'admin-page':
                 if (!window.adminManager) {
-                    window.adminManager = new window.AdminManager();
+                    // Admin manager is already initialized
                 }
                 break;
         }
@@ -419,7 +443,7 @@ window.addEventListener('unhandledrejection', (e) => {
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new App();
-    console.log('🚀 CryptoBot Pro initialized successfully!');
+    console.log('🚀 EzyAgo initialized successfully!');
 });
 
 // Export for testing
