@@ -1,5 +1,5 @@
 // Dashboard Management
-class DashboardManager {
+window.DashboardManager = class DashboardManager {
     constructor() {
         this.performanceChart = null;
         this.refreshInterval = null;
@@ -101,12 +101,12 @@ class DashboardManager {
     }
 
     async loadDashboardData() {
-        if (!authManager.isAuthenticated()) return;
+        if (!window.authManager?.isAuthenticated()) return;
 
         try {
             // Load user dashboard data
             const response = await fetch(`${API_BASE_URL}/user/dashboard`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -148,7 +148,7 @@ class DashboardManager {
     async loadBotStatus() {
         try {
             const response = await fetch(`${API_BASE_URL}/bot/status`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -197,7 +197,7 @@ class DashboardManager {
     async loadSubscriptionStatus() {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/subscription`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -237,7 +237,7 @@ class DashboardManager {
     async loadSystemInfo() {
         try {
             const response = await fetch(`${API_BASE_URL}/bot/system-info`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -288,7 +288,7 @@ class DashboardManager {
     }
 
     async startBot() {
-        if (!authManager.isAuthenticated()) return;
+        if (!window.authManager?.isAuthenticated()) return;
 
         const startBtn = document.getElementById('start-bot-btn');
         this.setButtonLoading(startBtn, true);
@@ -296,7 +296,7 @@ class DashboardManager {
         try {
             const response = await fetch(`${API_BASE_URL}/bot/start`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             const data = await response.json();
@@ -372,8 +372,9 @@ class DashboardManager {
             el.textContent = `${marketData.change24h >= 0 ? '+' : ''}${marketData.change24h.toFixed(2)}%`;
         });
     }
+
     async stopBot() {
-        if (!authManager.isAuthenticated()) return;
+        if (!window.authManager?.isAuthenticated()) return;
 
         const stopBtn = document.getElementById('stop-bot-btn');
         this.setButtonLoading(stopBtn, true);
@@ -381,7 +382,7 @@ class DashboardManager {
         try {
             const response = await fetch(`${API_BASE_URL}/bot/stop`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             const data = await response.json();
@@ -411,7 +412,7 @@ class DashboardManager {
         try {
             const response = await fetch(`${API_BASE_URL}/bot/api-keys`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify({
                     apiKey: formData.get('apiKey'),
                     secretKey: formData.get('secretKey')
@@ -461,7 +462,7 @@ class DashboardManager {
 
             const response = await fetch(`${API_BASE_URL}/bot/settings`, {
                 method: 'PUT',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify(settings)
             });
 
@@ -491,7 +492,7 @@ class DashboardManager {
         try {
             const response = await fetch(`${API_BASE_URL}/user/report-payment`, {
                 method: 'POST',
-                headers: authManager.getAuthHeaders(),
+                headers: window.authManager.getAuthHeaders(),
                 body: JSON.stringify({
                     txHash: formData.get('txHash'),
                     amount: parseFloat(formData.get('amount'))
@@ -517,7 +518,7 @@ class DashboardManager {
     async loadSubscriptionData() {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/subscription`, {
-                headers: authManager.getAuthHeaders()
+                headers: window.authManager.getAuthHeaders()
             });
 
             if (response.ok) {
@@ -708,4 +709,3 @@ class DashboardManager {
 }
 
 // Initialize dashboard manager
-const dashboardManager = new DashboardManager();
