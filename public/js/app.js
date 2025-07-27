@@ -66,11 +66,8 @@ class App {
         this.showLoadingScreen();
 
         try {
-            // Wait for Firebase config manager
-            await this.waitForFirebaseConfig();
-            
-            // Wait for auth manager
-            await this.waitForAuthManager();
+            // Wait for Firebase to be completely ready
+            await this.waitForFirebaseReady();
             
             // Check if user is already authenticated
             await this.checkAuthState();
@@ -84,28 +81,28 @@ class App {
         }
     }
 
-    async waitForFirebaseConfig() {
-        let attempts = 0;
-        while (!window.firebaseConfigManager?.isInitialized && attempts < 100) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            attempts++;
-        }
-        
-        if (!window.firebaseConfigManager?.isInitialized) {
-            throw new Error('Firebase config not initialized');
-        }
-    }
-
-    async waitForAuthManager() {
-        let attempts = 0;
-        while (!window.authManager?.isReady && attempts < 50) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            attempts++;
-        }
-        
-        if (!window.authManager?.isReady) {
-            throw new Error('Auth manager not ready');
-        }
+    async waitForFirebaseReady() {
+        return new Promise((resolve, reject) => {
+            if (window.auth && window.authManager?.isReady) {
+                resolve();
+                return;
+            }
+            
+            const timeout = setTimeout(() => {
+                reject(new Error('Firebase and Auth not ready'));
+            }, 15000);
+            
+            const checkReady = () => {
+                if (window.auth && window.authManager?.isReady) {
+                    clearTimeout(timeout);
+                    resolve();
+                } else {
+                    setTimeout(checkReady, 100);
+                }
+            };
+            
+            checkReady();
+        });
     }
 
     async checkAuthState() {
