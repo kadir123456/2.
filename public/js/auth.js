@@ -27,8 +27,8 @@ let authManager;
 
         async _doInit() {
             try {
-                // Wait for Firebase to be ready
-                await this.waitForFirebase();
+                // Wait for Firebase ready event
+                await this.waitForFirebaseReady();
                 
                 // Check for saved auth state
                 const savedToken = localStorage.getItem('authToken');
@@ -49,16 +49,37 @@ let authManager;
             }
         }
 
-        async waitForFirebase() {
-            let attempts = 0;
-            while ((!window.auth || !window.firebaseConfigManager?.isInitialized) && attempts < 100) {
-                await new Promise(resolve => setTimeout(resolve, 100));
-                attempts++;
+        async waitForFirebaseReady() {
+            return new Promise((resolve, reject) => {
+                if (window.auth && window.firebaseConfigManager?.isInitialized) {
+                    resolve();
+                    return;
+                }
+                
+                const timeout = setTimeout(() => {
+                    reject(new Error('Firebase Auth not available'));
+                }, 10000);
+                
+                window.addEventListener('firebaseReady', () => {
+                    clearTimeout(timeout);
+                    resolve();
+                }, { once: true });
+            });
+        }
+
+        setupAuthListener() {
+            if (!window.auth) {
+                console.error('Firebase Auth not available for listener setup');
+                return;
             }
             
-            if (!window.auth) {
-                throw new Error('Firebase Auth not available');
-            }
+            window.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    this.handleAuthStateChange(user);
+                } else {
+                    this.handleSignOut();
+                }
+            });
         }
 
         setupAuthListener() {
