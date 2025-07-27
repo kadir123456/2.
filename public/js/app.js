@@ -1,313 +1,435 @@
-// Authentication Management
-class AuthManager {
+// Main Application Controller
+class App {
     constructor() {
-        this.currentUser = null;
-        this.authToken = null;
-        this.isReady = false;
+        this.currentPage = 'landing-page';
+        this.mobileMenuOpen = false;
         this.init();
     }
 
-    async init() {
-        // Wait for Firebase to be ready
-        await this.waitForFirebase();
-        
-        // Check for saved auth state
-        const savedToken = localStorage.getItem('authToken');
-        const savedUser = localStorage.getItem('currentUser');
-        
-        if (savedToken && savedUser) {
-            this.authToken = savedToken;
-            this.currentUser = JSON.parse(savedUser);
-        }
-
-        this.setupAuthListener();
-        this.setupFormHandlers();
-        this.isReady = true;
+    init() {
+        this.setupEventListeners();
+        this.initializeApp();
+        this.setupPWA();
     }
 
-    async waitForFirebase() {
-        let attempts = 0;
-        while ((!window.auth || !window.firebaseConfigManager?.isInitialized) && attempts < 100) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            attempts++;
+    setupEventListeners() {
+        // Page navigation
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('[onclick*="showPage"]')) {
+                e.preventDefault();
+                const onclick = e.target.getAttribute('onclick');
+                const pageMatch = onclick.match(/showPage\('([^']+)'\)/);
+                if (pageMatch) {
+                    this.showPage(pageMatch[1]);
+                }
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                this.scrollToSection(targetId);
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', () => this.toggleMobileMenu());
         }
-        
-        if (!window.auth) {
-            throw new Error('Firebase Auth not available');
-        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (this.mobileMenuOpen && !e.target.closest('.navbar')) {
+                this.closeMobileMenu();
+            }
+        });
+
+        // Handle browser back/forward
+        window.addEventListener('popstate', (e) => {
+            if (e.state && e.state.page) {
+                this.showPage(e.state.page, false);
+            }
+        });
+
+        // Handle online/offline status
+        window.addEventListener('online', () => {
+            showNotification('İnternet bağlantısı yeniden kuruldu', 'success');
+        });
+
+        window.addEventListener('offline', () => {
+            showNotification('İnternet bağlantısı kesildi', 'warning');
+        });
     }
 
-    setupAuthListener() {
-        // Setup auth state listener
-        window.auth.onAuthStateChanged((user) => {
+    async initializeApp() {
+        // Show loading screen
+        this.showLoadingScreen();
+
+        try {
+            // Wait for Firebase to be ready
+            let attempts = 0;
+            while (!window.firebaseConfigManager?.isInitialized && attempts < 100) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
+            if (!window.firebaseConfigManager?.isInitialized) {
+                throw new Error('Firebase not initialized');
+            }
+            
+            // Wait for auth manager to be ready
+            attempts = 0;
+            while (!window.authManager?.isReady && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+            
+            // Check if user is already authenticated
+            const user = window.auth?.currentUser;
             if (user) {
-                this.handleAuthStateChange(user);
+                // Check if admin
+                if (user.email === 'admin@ezyago.com') {
+                    this.showPage('admin-page');
+                } else {
+                    this.showPage('dashboard-page');
+                }
             } else {
-                this.handleSignOut();
+                this.showPage('landing-page');
             }
+
+        } catch (error) {
+            console.error('App initialization error:', error);
+            this.showPage('landing-page');
+        } finally {
+            // Hide loading screen
+            this.hideLoadingScreen();
+        }
+    }
+
+
+    showLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            loadingScreen.style.display = 'flex';
+        }
+    }
+
+    hideLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1000);
+        }
+    }
+
+    showPage(pageId, addToHistory = true) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
         });
-    }
 
-    setupFormHandlers() {
-        // Login form
-        const loginForm = document.getElementById('login-form');
-        if (loginForm) {
-            loginForm.addEventListener('submit', (e) => this.handleLogin(e));
-        }
+        // Show target page
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+            targetPage.classList.add('active');
+            this.currentPage = pageId;
 
-        // Register form
-        const registerForm = document.getElementById('register-form');
-        if (registerForm) {
-            registerForm.addEventListener('submit', (e) => this.handleRegister(e));
-        }
-    }
-
-    async handleLogin(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const email = formData.get('email');
-        const password = formData.get('password');
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        this.setButtonLoading(submitBtn, true);
-
-        try {
-            // Sign in with Firebase
-            const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            
-            // Get ID token
-            const idToken = await user.getIdToken();
-            
-            // Store auth data
-            this.authToken = idToken;
-            localStorage.setItem('authToken', idToken);
-            
-            // Check if admin
-            if (email === 'admin@ezyago.com') {
-                window.app?.showPage('admin-page');
-            } else {
-                window.app?.showPage('dashboard-page');
+            // Add to browser history
+            if (addToHistory) {
+                history.pushState({ page: pageId }, '', `#${pageId}`);
             }
-            
-            this.showNotification('Giriş başarılı!', 'success');
-            
-        } catch (error) {
-            console.error('Login error:', error);
-            let errorMessage = 'Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.';
-            
-            if (error.code === 'auth/user-not-found') {
-                errorMessage = 'Bu email adresi ile kayıtlı kullanıcı bulunamadı.';
-            } else if (error.code === 'auth/wrong-password') {
-                errorMessage = 'Şifre hatalı.';
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = 'Geçersiz email adresi.';
-            } else if (error.code === 'auth/api-key-not-valid') {
-                errorMessage = 'Firebase yapılandırma hatası. Lütfen yöneticiyle iletişime geçin.';
-            }
-            
-            this.showNotification(errorMessage, 'error');
-        } finally {
-            this.setButtonLoading(submitBtn, false);
+
+            // Initialize page-specific functionality
+            this.initializePage(pageId);
+
+            // Close mobile menu if open
+            this.closeMobileMenu();
+
+            // Scroll to top
+            window.scrollTo(0, 0);
         }
     }
 
-    async handleRegister(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const fullName = formData.get('fullName');
-        const email = formData.get('email');
-        const password = formData.get('password');
-        const confirmPassword = formData.get('confirmPassword');
-
-        if (password !== confirmPassword) {
-            this.showNotification('Şifreler eşleşmiyor!', 'error');
-            return;
+    initializePage(pageId) {
+        switch (pageId) {
+            case 'dashboard-page':
+                if (!window.dashboardManager) {
+                    window.dashboardManager = new window.DashboardManager();
+                } else {
+                    window.dashboardManager.loadDashboardData();
+                }
+                break;
+            case 'settings-page':
+                if (!window.dashboardManager) {
+                    window.dashboardManager = new window.DashboardManager();
+                } else {
+                    window.dashboardManager.loadSystemInfo();
+                }
+                break;
+            case 'subscription-page':
+                if (!window.dashboardManager) {
+                    window.dashboardManager = new window.DashboardManager();
+                } else {
+                    window.dashboardManager.loadSubscriptionData();
+                }
+                break;
+            case 'admin-page':
+                if (!window.adminManager) {
+                    window.adminManager = new window.AdminManager();
+                }
+                break;
         }
+    }
 
-        if (password.length < 6) {
-            this.showNotification('Şifre en az 6 karakter olmalıdır!', 'error');
-            return;
-        }
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        this.setButtonLoading(submitBtn, true);
-
-        try {
-            // Create user with Firebase
-            const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            
-            // Update profile
-            await user.updateProfile({
-                displayName: fullName
+    scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
-            
-            // Get ID token
-            const idToken = await user.getIdToken();
-            
-            // Register user in backend
-            const response = await fetch(`${window.API_BASE_URL}/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${idToken}`
-                },
-                body: JSON.stringify({
-                    fullName,
-                    email
-                })
-            });
-
-            if (response.ok) {
-                this.authToken = idToken;
-                localStorage.setItem('authToken', idToken);
-                
-                window.app?.showPage('dashboard-page');
-                this.showNotification('Hesap başarıyla oluşturuldu! 7 günlük deneme sürünüz başladı.', 'success');
-            } else {
-                const errorData = await response.json();
-                throw new Error(errorData.error || 'Kayıt işlemi başarısız');
-            }
-            
-        } catch (error) {
-            console.error('Registration error:', error);
-            let errorMessage = 'Kayıt işlemi başarısız. Lütfen tekrar deneyin.';
-            
-            if (error.code === 'auth/email-already-in-use') {
-                errorMessage = 'Bu email adresi zaten kullanımda.';
-            } else if (error.code === 'auth/weak-password') {
-                errorMessage = 'Şifre çok zayıf. Daha güçlü bir şifre seçin.';
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = 'Geçersiz email adresi.';
-            } else if (error.code === 'auth/api-key-not-valid') {
-                errorMessage = 'Firebase yapılandırma hatası. Lütfen yöneticiyle iletişime geçin.';
-            }
-            
-            this.showNotification(errorMessage, 'error');
-        } finally {
-            this.setButtonLoading(submitBtn, false);
         }
     }
 
-    async handleAuthStateChange(user) {
-        if (user) {
-            this.currentUser = {
-                uid: user.uid,
-                email: user.email,
-                displayName: user.displayName
-            };
-            
-            localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
-            
-            // Update UI
-            this.updateUserUI();
-            
-            // Get fresh token
-            const idToken = await user.getIdToken();
-            this.authToken = idToken;
-            localStorage.setItem('authToken', idToken);
-        }
-    }
-
-    handleSignOut() {
-        this.currentUser = null;
-        this.authToken = null;
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('currentUser');
+    toggleMobileMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
         
-        // Redirect to landing page
-        window.app?.showPage('landing-page');
-    }
-
-    async logout() {
-        try {
-            await window.auth.signOut();
-            this.showNotification('Başarıyla çıkış yapıldı.', 'info');
-        } catch (error) {
-            console.error('Logout error:', error);
-            this.showNotification('Çıkış yapılırken hata oluştu.', 'error');
+        if (navMenu && mobileToggle) {
+            this.mobileMenuOpen = !this.mobileMenuOpen;
+            
+            if (this.mobileMenuOpen) {
+                navMenu.classList.add('mobile-open');
+                mobileToggle.classList.add('active');
+            } else {
+                navMenu.classList.remove('mobile-open');
+                mobileToggle.classList.remove('active');
+            }
         }
     }
 
-    updateUserUI() {
-        if (!this.currentUser) return;
+    closeMobileMenu() {
+        const navMenu = document.querySelector('.nav-menu');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (navMenu && mobileToggle) {
+            this.mobileMenuOpen = false;
+            navMenu.classList.remove('mobile-open');
+            mobileToggle.classList.remove('active');
+        }
+    }
 
-        // Update user name
-        const userNameElements = document.querySelectorAll('#user-name');
-        userNameElements.forEach(el => {
-            el.textContent = this.currentUser.displayName || this.currentUser.email;
+    setupPWA() {
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Handle PWA install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // Show install button or notification
+            showNotification('Bu uygulamayı ana ekranınıza ekleyebilirsiniz!', 'info');
         });
 
-        // Update user avatar
-        const userAvatarElements = document.querySelectorAll('#user-avatar');
-        userAvatarElements.forEach(el => {
-            const initials = this.getUserInitials(this.currentUser.displayName || this.currentUser.email);
-            el.textContent = initials;
+        // Handle PWA install
+        window.addEventListener('appinstalled', () => {
+            showNotification('Uygulama başarıyla yüklendi!', 'success');
+            deferredPrompt = null;
         });
-    }
-
-    getUserInitials(name) {
-        return name
-            .split(' ')
-            .map(word => word.charAt(0))
-            .join('')
-            .toUpperCase()
-            .substring(0, 2);
-    }
-
-    setButtonLoading(button, loading) {
-        if (!button) return;
-
-        if (loading) {
-            button.disabled = true;
-            button.innerHTML = '<span class="spinner"></span> Yükleniyor...';
-        } else {
-            button.disabled = false;
-            const originalText = button.getAttribute('data-original-text') || 
-                               (button.textContent.includes('Giriş') ? 'Giriş Yap' : 'Hesap Oluştur');
-            button.innerHTML = originalText;
-        }
-    }
-
-    showNotification(message, type) {
-        if (window.showNotification) {
-            window.showNotification(message, type);
-        } else {
-            console.log(`${type.toUpperCase()}: ${message}`);
-        }
-    }
-
-    isAuthenticated() {
-        return !!this.authToken && !!this.currentUser;
-    }
-
-    getAuthHeaders() {
-        return {
-            'Authorization': `Bearer ${this.authToken}`,
-            'Content-Type': 'application/json'
-        };
     }
 }
 
-// Initialize auth manager when Firebase is ready
-document.addEventListener('DOMContentLoaded', async () => {
-    // Wait a bit for Firebase to be ready
-    setTimeout(async () => {
-        try {
-            window.authManager = new AuthManager();
-            console.log('✅ Auth Manager initialized');
-        } catch (error) {
-            console.error('❌ Auth Manager initialization failed:', error);
+// Utility Functions
+window.showNotification = function(message, type = 'info', duration = 5000) {
+    const container = document.getElementById('notification-container');
+    if (!container) return;
+
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    
+    const iconMap = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+    };
+
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span>${iconMap[type] || ''} ${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+
+    container.appendChild(notification);
+
+    // Auto remove
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
         }
-    }, 1000);
+    }, duration);
+};
+
+window.copyToClipboard = function(elementIdOrText) {
+    let textToCopy;
+    
+    if (elementIdOrText.startsWith('#') || document.getElementById(elementIdOrText)) {
+        const element = document.getElementById(elementIdOrText.replace('#', ''));
+        textToCopy = element ? element.textContent : elementIdOrText;
+    } else {
+        textToCopy = elementIdOrText;
+    }
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            showNotification('Panoya kopyalandı!', 'success', 2000);
+        }).catch(() => {
+            fallbackCopyToClipboard(textToCopy);
+        });
+    } else {
+        fallbackCopyToClipboard(textToCopy);
+    }
+};
+
+function fallbackCopyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showNotification('Panoya kopyalandı!', 'success', 2000);
+    } catch (err) {
+        showNotification('Kopyalama başarısız!', 'error', 2000);
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+window.closeAnnouncement = function() {
+    const announcementCard = document.getElementById('system-announcement');
+    if (announcementCard) {
+        announcementCard.style.display = 'none';
+    }
+};
+
+window.formatCurrency = function(amount, currency = 'USD') {
+    return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2
+    }).format(amount);
+};
+
+window.formatPercentage = function(value) {
+    return `${value > 0 ? '+' : ''}${value.toFixed(2)}%`;
+};
+
+window.formatDate = function(date) {
+    return new Intl.DateTimeFormat('tr-TR', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    }).format(new Date(date));
+};
+
+window.formatTimeAgo = function(date) {
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - new Date(date)) / 1000);
+    
+    if (diffInSeconds < 60) {
+        return 'Az önce';
+    } else if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} dakika önce`;
+    } else if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} saat önce`;
+    } else {
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} gün önce`;
+    }
+};
+
+// Global page navigation function
+window.showPage = function(pageId) {
+    if (window.app) {
+        window.app.showPage(pageId);
+    }
+};
+
+window.scrollToSection = function(sectionId) {
+    if (window.app) {
+        window.app.scrollToSection(sectionId);
+    }
+};
+
+window.toggleMobileMenu = function() {
+    if (window.app) {
+        window.app.toggleMobileMenu();
+    }
+};
+
+// Error handling
+window.addEventListener('error', (e) => {
+    console.error('Application error:', e.error);
+    if (window.showNotification) {
+        window.showNotification('Bir hata oluştu. Lütfen sayfayı yenileyin.', 'error');
+    }
 });
 
-// Global logout function
-function handleLogout() {
-    if (window.authManager) {
-        window.authManager.logout();
+window.addEventListener('unhandledrejection', (e) => {
+    console.error('Unhandled promise rejection:', e.reason);
+    if (window.showNotification) {
+        window.showNotification('Bir hata oluştu. Lütfen tekrar deneyin.', 'error');
     }
+});
+
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.app = new App();
+    console.log('🚀 CryptoBot Pro initialized successfully!');
+});
+
+// Export for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        App,
+        showNotification: window.showNotification,
+        copyToClipboard: window.copyToClipboard,
+        formatCurrency: window.formatCurrency,
+        formatPercentage: window.formatPercentage,
+        formatDate: window.formatDate
+    };
 }
